@@ -26,6 +26,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        if(ParseUser.getCurrentUser()!=null){
+            goMainActivity();
+        }
+
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         Button btLogin = findViewById(R.id.btLogin);
@@ -72,8 +76,7 @@ public class LoginActivity extends AppCompatActivity {
             if (user != null) {
                 // Hooray! The user is logged in.
                 Log.i(TAG, "Login Success: "+ParseUser.getCurrentUser().getUsername());
-                Intent i = new Intent(LoginActivity.this,MainActivity.class);
-                startActivity(i);
+                goMainActivity();
             } else {
                 Log.e(TAG, "Login Failed: ",e );
             }
@@ -89,11 +92,14 @@ public class LoginActivity extends AppCompatActivity {
         user.signUpInBackground(e -> {
             if (e == null) {
                 Log.i(TAG, "User Sign Up Successful: " + ParseUser.getCurrentUser().getUsername());
-                Intent i = new Intent(LoginActivity.this,MainActivity.class);
-                startActivity(i);
+                goMainActivity();
             } else {
                 Log.e(TAG, "Sign up Failed: ", e);
             }
         });
+    }
+    public void goMainActivity(){
+        Intent i = new Intent(LoginActivity.this,MainActivity.class);
+        startActivity(i);
     }
 }
